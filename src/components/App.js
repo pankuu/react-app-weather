@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import "./App.css";
 import Form from "./Form";
 import Result from "./Result";
+
 const APIKey = "cab76c76bc09f5a7054d70423d3c98c1";
+
 class App extends Component {
   state = {
     value: "",
@@ -57,7 +59,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div className="App">
         <Form
