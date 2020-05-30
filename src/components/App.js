@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Form from "./Form";
 import Result from "./Result";
-
+const APIKey = "cab76c76bc09f5a7054d70423d3c98c1";
 class App extends Component {
   state = {
     value: "",
@@ -14,7 +14,7 @@ class App extends Component {
     temp: "",
     pressure: "",
     wind: "",
-    error: "",
+    error: false,
   };
 
   handleInputChange = (e) => {
@@ -25,8 +25,7 @@ class App extends Component {
 
   handleCitySubmit = (e) => {
     e.preventDefault();
-
-    const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&APPID=cab76c76bc09f5a7054d70423d3c98c1&units=metric`;
+    const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&APPID=${APIKey}&units=metric`;
 
     fetch(API)
       .then((response) => {
@@ -36,11 +35,29 @@ class App extends Component {
         throw Error("Not found:" + this.state.value);
       })
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+      .then((data) => {
+        const time = new Date().toLocaleString();
+        this.setState((prevState) => ({
+          date: time,
+          city: prevState.value,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset,
+          temp: data.main.temp,
+          pressure: data.main.pressure,
+          wind: data.wind.speed,
+          error: false,
+        }));
+      })
+      .catch((error) => {
+        this.setState((prevState) => ({
+          error: true,
+          city: prevState.value,
+        }));
+      });
   };
 
   render() {
+    console.log(this.state);
     return (
       <div className="App">
         <Form
@@ -48,7 +65,7 @@ class App extends Component {
           change={this.handleInputChange}
           submit={this.handleCitySubmit}
         />
-        <Result />
+        <Result weather={this.state} />
       </div>
     );
   }
