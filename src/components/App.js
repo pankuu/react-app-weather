@@ -5,8 +5,8 @@ import Form from "./Form";
 import Result from "./Result";
 require("dotenv").config();
 
-const APIKey = process.env.REACT_APP_OPEN_WEATHER_MAP;
-const LOCATIONKey = process.env.REACT_APP_LOCATION_IQ;
+const WeatherKey = process.env.REACT_APP_OPEN_WEATHER_MAP;
+const LocationKey = process.env.REACT_APP_LOCATION_IQ;
 
 class App extends Component {
   state = {
@@ -30,7 +30,7 @@ class App extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
       fetch(
-        `https://us1.locationiq.com/v1/reverse.php?key=${LOCATIONKey}&lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`
+        `https://us1.locationiq.com/v1/reverse.php?key=${LocationKey}&lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`
       )
         .then((response) => {
           if (response.ok) {
@@ -58,7 +58,7 @@ class App extends Component {
     }
 
     if (prevState.value !== this.state.value) {
-      const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&APPID=${APIKey}&units=metric`;
+      const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&APPID=${WeatherKey}&units=metric`;
       fetch(API)
         .then((response) => {
           if (response.ok) {
