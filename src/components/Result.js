@@ -11,6 +11,7 @@ const Result = (props) => {
     wind,
     temp,
     date,
+    weather,
   } = props.weather;
 
   let content = null;
@@ -31,6 +32,9 @@ const Result = (props) => {
         </p>
         <p>
           Pressure: <strong>{pressure} hPa</strong>
+        </p>
+        <p>
+          Weather: <strong>{weather}</strong>
         </p>
         <p>
           Wind: <strong>{wind} m/s</strong>
